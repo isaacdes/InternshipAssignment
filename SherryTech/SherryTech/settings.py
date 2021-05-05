@@ -50,11 +50,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'SherryTech.urls'
-
+import os
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [r'G:\Internship\assignments\InternshipAssignment\SherryTech\templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
