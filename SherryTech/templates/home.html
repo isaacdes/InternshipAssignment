@@ -3,13 +3,14 @@
 {% block content %}
 <center>
 <h1>Welcome User</h1>
-    <form name="myforms" method="post" action="" id="ajaxForm" >
+     <form name="myforms" method="post" action="" id="ajaxForm" >
     {% csrf_token %}
-    Name: <input type="text" name="nm"><br><br>
-    Email: <input type = "text" name="em"><br><br>
-    PhNo: <input type= "text" name="phno"><br><br>&nbsp&nbsp&nbsp&nbsp&nbsp
+    
+    Name: <input type="text" name="nm" id="nm" required=""><br><br>
+    Email: <input type = "email" name="em" id="em" required=""><br><br>
+    PhNo: <input type= "tel" pattern="^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$" name="phno" id="phno" required=""><br><br>&nbsp&nbsp&nbsp&nbsp&nbsp
     {{form1.as_p}}
-    <button type="submit" name="bt1">Submit</button> <br><br>
+    <button type="submit" name="bt1" onclick="return validation()">Submit</button> <br><br>
     </form>
     {{form2.as_p}}&nbsp&nbsp&nbsp&nbsp&nbsp
     <button  value="Submit2" onclick="ajaxSubmit()">Ajax Submit</button>
@@ -18,14 +19,39 @@
 </center>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+
+function validation(){
+    var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var telRegex = "^(\+91[\-\s]?)?[0]?(91)?[789]\d{9}$";
+    var x = document.forms["myforms"]["nm"].value;
+    var y = document.forms["myforms"]["em"].value;
+    var z = document.forms["myforms"]["phno"].value;
+    if(x == "" || y == "" || z == ""){
+        alert("All the fields should be filled");
+        return false;
+    }
+    if(!y.match(emailRegex)){
+        alert("Enter proper email id");
+        return false;
+    }
+    
+    
+    
+}
+
 function ajaxSubmit(){
-    {% comment %} alert("Ajax requet will be done") {% endcomment %}
+    
+    if( validation() == false){
+        return false;
+    }
     
     $.ajax({
   method: "POST",
   url: "/create",
   data: { 
-      name: "John", email: "Boston", phno : "9890876557",
+    name: $(nm).val(),
+    email: $(em).val(),
+    phno : $(phno).val(),
       csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val() }
 })
   .done(function( msg ) {
