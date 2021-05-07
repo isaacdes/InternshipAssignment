@@ -46,3 +46,8 @@ def create_user(request):
         print("The data has been uploaded")
 
         return HttpResponse('')
+
+def display(request):
+
+    return render(request, "display.html")
+    # return HttpResponse("displaying data")
